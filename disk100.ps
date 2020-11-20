@@ -1,0 +1,113 @@
+%!PS
+% prints a quadrature encoder disk with 100 slots, alternative format
+/mm { 2.835 mul } def
+
+%%%%%%%% constants
+/center     { 100.0 mm 5 mm add 100.0 mm 1.5 mul } def
+/radiusext  { 100.0 mm } def
+/radius1    { radiusext 1.0 mm sub } def
+/radius2    { radius1 10.0 mm sub } def
+/radius3    { radius2 1.0 mm sub } def
+/radius4    { radius3 10.0 mm sub } def
+/slots      100  def
+
+%%%%%%%% define color
+0 0 0 setrgbcolor
+
+%%%%%%%% define angle increment
+360 slots div
+/inc exch def
+
+center
+    /y exch def
+    /x exch def
+
+
+x y radiusext 0 360 arc stroke
+
+/SlotExt {
+    newpath
+    %initial point
+        x radius1 a1 cos mul add
+        y radius1 a1 sin mul add
+        moveto
+    % first arc
+        center radius1 a1 a2 arc
+    % first line inwards
+        x radius2 a2 cos mul add
+        y radius2 a2 sin mul add
+        lineto
+    % second arc
+        center radius2 a2 a1 arcn
+    % second line outwards
+        x radius1 a1 cos mul add
+        y radius1 a1 sin mul add
+        lineto
+
+    closepath
+    fill
+} def
+
+/SlotInt {
+    newpath
+    %initial point
+        x radius3 a1 cos mul add
+        y radius3 a1 sin mul add
+        moveto
+    % first arc
+        center radius3 a1 a2 arc
+    % first line inwards
+        x radius3 a2 cos mul add
+        y radius3 a2 sin mul add
+        lineto
+    % second arc
+        center radius4 a2 a1 arcn
+    % second line outwards
+        x radius4 a1 cos mul add
+        y radius4 a1 sin mul add
+        lineto
+    closepath
+    fill
+} def
+
+inc 2 div
+/inc2 exch def
+inc 4 div
+/inc4 exch def
+
+0 inc 360 {
+/a1 exch def
+a1 inc2 add
+/a2 exch def
+SlotExt
+} for
+
+inc4 inc 360 {
+/a1 exch def
+a1 inc2 add
+/a2 exch def
+SlotInt
+} for
+
+%%%%%%%% circle at center
+0 0 0 setrgbcolor
+center
+20.0 mm
+0 360 arc stroke
+
+%%%%%%%% cross at center
+0 0 0 setrgbcolor
+/ll 20.0 1.5 mul def
+
+newpath
+center  moveto
+0 ll mm rlineto
+center  moveto
+0 0 ll sub mm rlineto
+center  moveto
+ll mm 0  rlineto
+center  moveto
+0 ll sub mm 0  rlineto
+stroke
+closepath
+showpage
