@@ -5,9 +5,11 @@ Generating Quadrature Encoding Disks
 Python script to generate quadrature encoding disks in PostScript.
 
 They have two rings of slots as below.
+
 ![disk](images/disk100.png)
 
 When rotating they generate two signals in quadrature.
+
 ![waveform](images/quadrature-waveform.png)
 
 
